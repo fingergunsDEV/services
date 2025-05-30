@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Digital Marketing Services | Holistic Growth Marketing</title>
+	<script defer src="https://cdn.tailwindcss.com"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/gsap.min.js"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/ScrollTrigger.min.js"></script>
+
+	<style>
+		/* Import Inter font for consistent modern UI */
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+		body {
+			font-family: 'Inter', sans-serif;
+			/* Using Inter as preferred */
+			overflow-x: hidden;
+			background-color: #0f172a;
+			color: #e2e8f0;
+		}
+
+		/* Mega Menu Styles */
+		.mega-menu {
+			transform: translateY(-100%);
+			transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			pointer-events: none;
+			padding-top: 4rem;
+			backdrop-filter: blur(20px);
+			background: rgba(15, 23, 42, 0.98);
+			font-size: 1rem;
+		}
+
+		.mega-menu.active {
+			transform: translateY(0);
+			pointer-events: all;
+		}
+
+		/* Navigation Menu Item Styles */
+		.menu-item-nav {
+			position: relative;
+			overflow: hidden;
+			transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			cursor: pointer;
+			padding: 0.5rem 0;
+		}
+
+		.menu-item-nav::after {
+			content: '';
+			position: absolute;
+			bottom: -2px;
+			left: 0;
+			width: 0;
+			height: 3px;
+			background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+			transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			border-radius: 2px;
+		}
+
+		.menu-item-nav:hover::after {
+			width: 100%;
+		}
+
+		.menu-item-nav:hover {
+			transform: translateY(-2px);
+			text-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+		}
+
+		/* Interactive Menu Card Styles */
+		.menu-card-interactive {
+			transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.6));
+			border: 1px solid rgba(56, 189, 248, 0.2);
+			backdrop-filter: blur(10px);
+		}
+
+		.menu-card-interactive:hover {
+			transform: translateY(-8px) scale(1.03) rotateX(5deg);
+			box-shadow:
+				0 25px 50px -12px rgba(56, 189, 248, 0.25),
+				0 0 0 1px rgba(56, 189, 248, 0.3),
+				inset 0 1px 0 rgba(255, 255, 255, 0.1);
+			background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(139, 92, 246, 0.1));
+		}
+
+		/* Canvas Container for Three.js Backgrounds */
+		.canvas-container {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 0;
+			opacity: 0.2;
+			filter: blur(0.5px);
+		}
+
+		footer .canvas-container {
+			opacity: 0.15;
+		}
+
+		/* Primary Button Styles */
+		.btn-primary {
+			position: relative;
+			overflow: hidden;
+			transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+			box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+		}
+
+		.btn-primary::before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 0;
+			height: 0;
+			background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+			border-radius: 50%;
+			transform: translate(-50%, -50%);
+			transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
+
+		.btn-primary:hover {
+			transform: translateY(-3px) scale(1.05);
+			box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+		}
+
+		.btn-primary:hover::before {
+			width: 400px;
+			height: 400px;
+		}
+
+		/* Submenu Item Styles */
+		.submenu-item {
+			transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			display: block;
+			padding: 6px 0;
+			color: #cbd5e1;
+			position: relative;
+		}
+
+		.submenu-item::before {
+			content: '';
+			position: absolute;
+			left: -8px;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 4px;
+			height: 0;
+			background: linear-gradient(180deg, #38bdf8, #8b5cf6);
+			border-radius: 2px;
+			transition: height 0.3s ease;
+		}
+
+		/* Footer Link Styles */
+		.footer-link {
+			transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			display: block;
+			padding: 4px 0;
+			color: #94a3b8;
+		}
+
+		.submenu-item:hover,
+		.footer-link:hover {
+			transform: translateX(8px);
+			color: #38bdf8;
+			text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+		}
+
+		.submenu-item:hover::before {
+			height: 100%;
+		}
+
+		/* Footer Contact Link Styles */
+		.footer-contact-link {
+			color: #818cf8;
+			display: inline-flex;
+			align-items: center;
+			transition: all 0.3s ease;
+		}
+
+		.footer-contact-link:hover {
+			color: #a5b4fc;
+			transform: translateX(4px);
+		}
+
+		/* Close Button Styles */
+		.close-btn {
+			transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			padding: 0.5rem;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(10px);
+		}
+
+		.close-btn:hover {
+			transform: rotate(180deg) scale(1.1);
+			color: #38bdf8;
+			background: rgba(56, 189, 248, 0.2);
+			box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
+		}
+
+		/* Custom Scrollbar Styles */
+		.custom-scrollbar::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		.custom-scrollbar::-webkit-scrollbar-track {
+			background: rgba(255, 255, 255, 0.05);
+			border-radius: 10px;
+		}
+
+		.custom-scrollbar::-webkit-scrollbar-thumb {
+			background: linear-gradient(180deg, #38bdf8, #8b5cf6);
+			border-radius: 10px;
+			border: 2px solid rgba(255, 255, 255, 0.1);
+		}
+
+		.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+			background: linear-gradient(180deg, #0ea5e9, #7c3aed);
+		}
+
+		/* Animated Background for Body */
+		.animated-bg {
+			background: linear-gradient(-45deg, #0f172a, #1e293b, #0f3460, #0a2342, #1a202c);
+			background-size: 400% 400%;
+			animation: gradient 20s ease infinite;
+		}
+
+		@keyframes gradient {
+
+			0%,
+			100% {
+				background-position: 0% 50%;
+			}
+
+			25% {
+				background-position: 100% 50%;
+			}
+
+			50% {
+				background-position: 100% 100%;
+			}
+
+			75% {
+				background-position: 0% 100%;
+			}
+		}
+
+		/* Gradient Text Styles */
+		.gradient-text {
+			background: linear-gradient(135deg, #38bdf8, #8b5cf6, #06b6d4);
+			background-size: 200% 200%;
+			animation: gradientShift 3s ease infinite;
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+		}
+
+		@keyframes gradientShift {
+
+			0%,
+			100% {
+				background-position: 0% 50%;
+			}
+
+			50% {
+				background-position: 100% 50%;
+			}
+		}
+
+		/* Hamburger Menu Icon Styles */
+		.hamburger-line {
+			width: 22px;
+			height: 2.5px;
+			background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+			display: block;
+			margin: 4px auto;
+			transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			border-radius: 2px;
+		}
+
+		.mega-menu.active .hamburger-line-1 {
+			transform: rotate(45deg) translate(5px, 5px);
+			background: linear-gradient(90deg, #f59e0b, #ef4444);
+		}
+
+		.mega-menu.active .hamburger-line-2 {
+			opacity: 0;
+			transform: scale(0);
+		}
+
+		.mega-menu.active .hamburger-line-3 {
+			transform: rotate(-45deg) translate(5px, -5px);
+			background: linear-gradient(90deg, #f59e0b, #ef4444);
+		}
+
+		/* Header Glow Effect */
+		.header-glow {
+			box-shadow: 0 4px 20px rgba(56, 189, 248, 0.1);
+		}
+
+		/* Menu Section Title Styles */
+		.menu-section-title {
+			background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+			position: relative;
+		}
+
+		.menu-section-title::after {
+			content: '';
+			position: absolute;
+			bottom: -4px;
+			left: 0;
+			right: 0;
+			height: 2px;
+			background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+			border-radius: 1px;
+		}
+
+		/* Interactive Demo Card Styles */
+		.interactive-demo-card {
+			background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+			border: 1px solid rgba(56, 189, 248, 0.3);
+			backdrop-filter: blur(15px);
+			transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
+
+		.interactive-demo-card:hover {
+			transform: translateY(-10px) rotateX(8deg) rotateY(2deg);
+			box-shadow:
+				0 30px 60px -12px rgba(56, 189, 248, 0.3),
+				0 0 0 1px rgba(56, 189, 248, 0.4),
+				inset 0 1px 0 rgba(255, 255, 255, 0.2);
+		}
+
+		/* Scroll Trigger Section Styles */
+		.scroll-trigger-section {
+			position: relative;
+			overflow: hidden;
+		}
+
+		/* Service, Benefit, Testimonial Card Styles */
+		.services-card,
+		.benefit-card,
+		.testimonial-card {
+			background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.6));
+			border: 1px solid rgba(56, 189, 248, 0.2);
+			backdrop-filter: blur(15px);
+			transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
+
+		.services-card:hover,
+		.benefit-card:hover,
+		.testimonial-card:hover {
+			transform: translateY(-12px) rotateX(8deg) rotateY(3deg);
+			box-shadow:
+				0 35px 70px -12px rgba(56, 189, 248, 0.3),
+				0 0 0 1px rgba(56, 189, 248, 0.4),
+				inset 0 1px 0 rgba(255, 255, 255, 0.15);
+		}
+
+		/* Parallax Background Effect */
+		.parallax-bg {
+			transform: translateZ(0);
+			will-change: transform;
+		}
+
+		/* Floating Element Animation */
+		.floating-element {
+			animation: float 6s ease-in-out infinite;
+		}
+
+		@keyframes float {
+
+			0%,
+			100% {
+				transform: translateY(0px) rotateZ(0deg);
+			}
+
+			50% {
+				transform: translateY(-20px) rotateZ(2deg);
+			}
+		}
+
+		/* Section Reveal Animation */
+		.section-reveal {
+			opacity: 0;
+			transform: translateY(60px) rotateX(15deg);
+		}
+
+		/* Star Rating Styles */
+		.star-rating {
+			color: #fbbf24;
+			filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.5));
+		}
+
+		/* Ticker Marquee Styles */
+		.ticker-marquee {
+			box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+		}
+
+		.animate-marquee {
+			animation: marquee 30s linear infinite;
+		}
+
+		@keyframes marquee {
+			0% {
+				transform: translateX(0);
+			}
+
+			100% {
+				transform: translateX(-50%);
+			}
+		}
+
+		/* Pricing Calculator Specific Styles */
+		.pricing-card {
+			background: rgba(255, 255, 255, 0.05);
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			transition: all 0.3s ease;
+		}
+
+		.pricing-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+		}
+
+		.active-card {
+			background: rgba(255, 255, 255, 0.1);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+		}
+
+		.feature-item {
+			display: flex;
+			align-items: center;
+			margin-bottom: 0.75rem;
+		}
+
+		.feature-icon {
+			margin-right: 0.5rem;
+		}
+
+		.glow-button {
+			position: relative;
+			overflow: hidden;
+			transition: all 0.3s ease;
+		}
+
+		.glow-button:after {
+			content: '';
+			position: absolute;
+			top: -50%;
+			left: -50%;
+			width: 200%;
+			height: 200%;
+			background: linear-gradient(45deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+			transform: rotate(45deg);
+			transition: all 0.5s ease;
+		}
+
+		.glow-button:hover:after {
+			left: 100%;
+		}
+
+		.blob {
+			position: absolute;
+			border-radius: 50%;
+			filter: blur(60px);
+			z-index: -1;
+			opacity: 0.4;
+		}
+
+		.toggle-switch {
+			position: relative;
+			display: inline-block;
+			width: 50px;
+			height: 26px;
+		}
+
+		.toggle-switch input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+
+		.toggle-slider {
+			position: absolute;
+			cursor: pointer;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(255, 255, 255, 0.2);
+			transition: .4s;
+			border-radius: 34px;
+		}
+
+		.toggle-slider:before {
+			position: absolute;
+			content: "";
+			height: 18px;
+			width: 18px;
+			left: 4px;
+			bottom: 4px;
+			background-color: white;
+			transition: .4s;
+			border-radius: 50%;
+		}
+
+		input:checked+.toggle-slider {
+			background-color: #4F46E5;
+		}
+
+		input:checked+.toggle-slider:before {
+			transform: translateX(24px);
+		}
+
+		/* Payment button styles */
+		.payment-button {
+			@apply flex items-center justify-center w-full py-3 px-4 rounded-xl font-medium transition-all duration-300;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		}
+
+		.payment-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+		}
+
+		.payment-button svg {
+			@apply mr-2 h-5 w-5;
+		}
+	</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/", 
+  "@type": "BreadcrumbList", 
+  "itemListElement": [{
+    "@type": "ListItem", 
+    "position": 1, 
+    "name": "Home",
+    "item": "https://www.holisticgrowthmarketing.com/"  
+  },{
+    "@type": "ListItem", 
+    "position": 2, 
+    "name": "Services",
+    "item": "https://www.holisticgrowthmarketing.com/services"  
+  }]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "WebSite",
+  "name": "Holistic Growth Marketing",
+  "url": "https://www.holisticgrowthmarketing.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.holisticgrowthmarketing.com/search?query={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Holistic Growth Marketing",
+  "description": "Comprehensive digital marketing strategies including SEO, PPC, social media, and email marketing to increase your online visibility and engagement.",
+  "image": "https://assets-global.website-files.com/65db95957d65c02ae759f762/65f0f7d7340181cb4ba8e94c_Group%20168.png",
+  "@id": "https://www.holisticgrowthmarketing.com/#website",
+  "url": "https://www.holisticgrowthmarketing.com/",
+  "telephone": "3239021031",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "215 Market Street",
+    "addressLocality": "Venice",
+    "addressRegion": "CA",
+    "postalCode": "90291",
+    "addressCountry": "US"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "opens": "08:00",
+    "closes": "17:00"
+  },
+  "sameAs": [
+    "https://www.facebook.com/holisticgrowthmarketing",
+    "https://twitter.com/localseogrowth",
+    "https://www.linkedin.com/company/holistic-growth-marketing"
+  ], 
+  "areaServed": "Global",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Marketing Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Digital Marketing",
+          "@id": "https://www.holisticgrowthmarketing.com/services/digital-marketing#digitalMarketing"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Business Intelligence",
+          "description": "Data-driven insights and analytics to inform business strategies and improve decision-making processes.",
+          "@id": "https://www.holisticgrowthmarketing.com/services/business-intelligence#businessIntelligence"
+  }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Review Management",
+          "description": "Reputation management services designed to monitor, manage, and enhance your online reviews across multiple platforms.",
+          "@id": "https://www.holisticgrowthmarketing.com/services/review-management#reviewManagement"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Content Marketing",
+          "description": "Strategic content creation and distribution to attract, engage, and retain a clearly defined audience, and drive profitable customer action.",
+          "@id": "https://www.holisticgrowthmarketing.com/services/content-marketing#contentMarketing"
+        }
+      }
+    ]
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+1-323-902-1031",
+    "contactType": "Customer Service",
+    "areaServed": "Global",
+    "availableLanguage": "English"
+  }
+}
+</script>
+
+<div class="min-h-screen animated-bg text-slate-100">
+	<header class="bg-slate-800/90 backdrop-blur-md text-white py-4 px-6 flex justify-between items-center fixed top-0 left-0 right-0 z-50 header-glow h-16">
+		<a href="https://www.holisticgrowthmarketing.com/" class="text-xl md:text-2xl font-bold gradient-text flex items-center">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 md:h-8 md:w-8 mr-2" viewBox="0 0 20 20" fill="currentColor">
+				<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+			</svg>
+			Holistic Growth Marketing
+		</a>
+		<nav class="hidden md:flex">
+			<ul class="flex space-x-5 lg:space-x-6">
+				<li><span class="menu-item-nav text-xs lg:text-sm font-medium hover:text-sky-400" data-menu="services">Services</span></li>
+				<li><span class="menu-item-nav text-xs lg:text-sm font-medium hover:text-sky-400" data-menu="industries">Industries</span></li>
+				<li><span class="menu-item-nav text-xs lg:text-sm font-medium hover:text-sky-400" data-menu="locations">Locations</span></li>
+				<li><span class="menu-item-nav text-xs lg:text-sm font-medium hover:text-sky-400" data-menu="resources">Resources</span></li>
+				<li><span class="menu-item-nav text-xs lg:text-sm font-medium hover:text-sky-400" data-menu="tools">Tools</span></li>
+				<li><span class="menu-item-nav text-xs lg:text-sm font-medium hover:text-sky-400" data-menu="company">Company</span></li>
+			</ul>
+		</nav>
+		<div class="flex items-center">
+			<a href="https://www.holisticgrowthmarketing.com/contact" class="bg-gradient-to-r from-sky-500 to-indigo-500 px-3 py-1.5 md:px-4 md:py-2 rounded-md text-xs md:text-sm font-medium btn-primary shadow-lg mr-3 md:mr-0">Get Started</a>
+			<button id="hamburger-menu" class="md:hidden p-2 focus:outline-none z-50 relative" aria-expanded="false" aria-controls="mega-menu-content-wrapper">
+				<span class="hamburger-line hamburger-line-1"></span><span class="hamburger-line hamburger-line-2"></span><span class="hamburger-line hamburger-line-3"></span>
+			</button>
+		</div>
+	</header>
+
+	<div class="mega-menu fixed inset-0 z-40 overflow-hidden" id="mega-menu-content-wrapper">
+		<div class="canvas-container" id="menu-background"></div>
+		<div class="container mx-auto px-4 sm:px-6 py-6 relative z-10 h-full flex flex-col">
+			<div class="flex justify-end mb-2 md:mb-4">
+				<button class="close-btn text-white opacity-70 hover:opacity:100 hidden md:block">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+			<div class="flex-grow overflow-y-auto custom-scrollbar max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-10rem)]">
+				<div class="menu-content hidden" id="services-menu">
+					<div class="flex items-center mb-8">
+						<h2 class="text-3xl md:text-4xl font-bold menu-section-title">Our Services</h2>
+						<div class="h-0.5 md:h-1 bg-gradient-to-r from-sky-500 to-indigo-500 flex-grow ml-6 rounded-full"></div>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6 md:gap-y-8">
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-3 md:mb-4">SEO Services</h3>
+							<ul class="space-y-2 text-sm" id="services-seo-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-3 md:mb-4">Content & Digital</h3>
+							<ul class="space-y-2 text-sm" id="services-content-digital-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-3 md:mb-4">Data, Analytics & Web</h3>
+							<ul class="space-y-2 text-sm" id="services-data-web-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-3 md:mb-4">Optimization & Mgmt</h3>
+							<ul class="space-y-2 text-sm" id="services-optimization-mgmt-links"></ul><a href="https://www.holisticgrowthmarketing.com/services" class="mt-4 inline-block text-sky-400 font-medium hover:text-sky-300 text-sm transition-colors">View All Services →</a>
+						</div>
+					</div>
+					<div class="mt-12 pt-8 border-t border-slate-700/50">
+						<div class="flex items-center mb-8">
+							<h3 class="text-2xl md:text-3xl font-bold menu-section-title">Interactive Dashboards & Demos</h3>
+							<div class="h-0.5 md:h-1 bg-gradient-to-r from-teal-400 to-cyan-500 flex-grow ml-6 rounded-full"></div>
+						</div>
+						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+							<div class="interactive-demo-card p-6 rounded-xl shadow-xl transition-all duration-500">
+								<h4 class="text-xl font-semibold text-teal-300 mb-3">SEO Performance Dashboard</h4>
+								<p class="text-slate-300 text-sm mb-4 leading-relaxed">Track your keyword rankings, organic traffic, backlink profile, and technical SEO health in real-time.</p>
+								<div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+									<a href="/demo/marketing-dashboard" class="flex-1 text-center bg-teal-600 hover:bg-teal-500 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg">View Demo</a>
+									<a href="#try-free-seo" class="flex-1 text-center bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium btn-primary">Try Free for 7 Days</a>
+								</div>
+							</div>
+							<div class="interactive-demo-card p-6 rounded-xl shadow-xl transition-all duration-500">
+								<h4 class="text-xl font-semibold text-teal-300 mb-3">Marketing ROI Dashboard</h4>
+								<p class="text-slate-300 text-sm mb-4 leading-relaxed">Visualize your marketing spend across channels and measure ROI, CPL, and campaign effectiveness.</p>
+								<div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+									<a href="#view-demo-roi" class="flex-1 text-center bg-teal-600 hover:bg-teal-500 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg">View Demo</a>
+									<a href="#try-free-roi" class="flex-1 text-center bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium btn-primary">Try Free for 7 Days</a>
+								</div>
+							</div>
+							<div class="interactive-demo-card p-6 rounded-xl shadow-xl transition-all duration-500">
+								<h4 class="text-xl font-semibold text-teal-300 mb-3">Holistic BI Analytics Suite</h4>
+								<p class="text-slate-300 text-sm mb-4 leading-relaxed">Integrate data from multiple sources for comprehensive business intelligence and strategic insights.</p>
+								<div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+									<a href="#view-demo-bi" class="flex-1 text-center bg-teal-600 hover:bg-teal-500 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg">View Demo</a>
+									<a href="#try-free-bi" class="flex-1 text-center bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium btn-primary">Try Free for 7 Days</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="menu-content hidden" id="industries-menu">
+					<div class="flex items-center mb-6">
+						<h2 class="text-2xl md:text-3xl font-bold menu-section-title">Industries We Serve</h2>
+						<div class="h-0.5 md:h-1 bg-gradient-to-r from-sky-500 to-indigo-500 flex-grow ml-4 rounded-full"></div>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 md:gap-y-6">
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Construction & Real Estate</h3>
+							<ul class="space-y-1 text-sm" id="industries-construction-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Professional Services</h3>
+							<ul class="space-y-1 text-sm" id="industries-professional-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Other Key Sectors</h3>
+							<ul class="space-y-1 text-sm" id="industries-other-links"></ul>
+						</div>
+					</div>
+				</div>
+				<div class="menu-content hidden" id="locations-menu">
+					<div class="flex items-center mb-6">
+						<h2 class="text-2xl md:text-3xl font-bold menu-section-title">Our Locations</h2>
+						<div class="h-0.5 md:h-1 bg-gradient-to-r from-sky-500 to-indigo-500 flex-grow ml-4 rounded-full"></div>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4 md:gap-y-6">
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Los Angeles Area</h3>
+							<ul class="space-y-1 text-sm" id="locations-la-links"></ul>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mt-3 md:mt-4 mb-2 md:mb-3">Other California</h3>
+							<ul class="space-y-1 text-sm" id="locations-ca-other-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">East Coast Cities</h3>
+							<ul class="space-y-1 text-sm" id="locations-east-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Central & Southern Cities</h3>
+							<ul class="space-y-1 text-sm" id="locations-central-south-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">More Cities</h3>
+							<ul class="space-y-1 text-sm" id="locations-more-links"></ul><a href="https://www.holisticgrowthmarketing.com/locations" class="mt-3 inline-block text-sky-400 font-medium hover:text-sky-300 text-xs md:text-sm">View All Locations →</a>
+						</div>
+					</div>
+				</div>
+				<div class="menu-content hidden" id="resources-menu">
+					<div class="flex items-center mb-6">
+						<h2 class="text-2xl md:text-3xl font-bold menu-section-title">Knowledge Hub</h2>
+						<div class="h-0.5 md:h-1 bg-gradient-to-r from-sky-500 to-indigo-500 flex-grow ml-4 rounded-full"></div>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4 md:gap-y-6">
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Learn Core Concepts</h3>
+							<ul class="space-y-1 text-sm" id="resources-learn-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Articles & Insights</h3>
+							<ul class="space-y-1 text-sm" id="resources-articles-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Guides & Practical Tools</h3>
+							<ul class="space-y-1 text-sm" id="resources-guides-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Browse by Topic</h3>
+							<ul class="space-y-1 text-sm" id="resources-topics-links"></ul><a href="https://www.holisticgrowthmarketing.com/resources" class="mt-3 inline-block text-sky-400 font-medium hover:text-sky-300 text-xs md:text-sm">All Resources →</a>
+						</div>
+					</div>
+				</div>
+				<div class="menu-content hidden" id="tools-menu">
+					<div class="flex items-center mb-6">
+						<h2 class="text-2xl md:text-3xl font-bold menu-section-title">SEO & Marketing Tools</h2>
+						<div class="h-0.5 md:h-1 bg-gradient-to-r from-sky-500 to-indigo-500 flex-grow ml-4 rounded-full"></div>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4 md:gap-y-6">
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Content & Analysis</h3>
+							<ul class="space-y-1 text-sm" id="tools-content-analysis-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Development & Utility</h3>
+							<ul class="space-y-1 text-sm" id="tools-dev-utility-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">AI & Automation</h3>
+							<ul class="space-y-1 text-sm" id="tools-ai-automation-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">SEO Specific</h3>
+							<ul class="space-y-1 text-sm" id="tools-seo-specific-links"></ul><a href="https://www.holisticgrowthmarketing.com/tools/seo-toolbox" class="mt-3 inline-block text-sky-400 font-medium hover:text-sky-300 text-xs md:text-sm">Explore SEO Toolbox →</a>
+						</div>
+					</div>
+				</div>
+				<div class="menu-content hidden" id="company-menu">
+					<div class="flex items-center mb-6">
+						<h2 class="text-2xl md:text-3xl font-bold menu-section-title">About Our Company</h2>
+						<div class="h-0.5 md:h-1 bg-gradient-to-r from-sky-500 to-indigo-500 flex-grow ml-4 rounded-full"></div>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 md:gap-y-6">
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Who We Are</h3>
+							<ul class="space-y-1 text-sm" id="company-about-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Our Work & People</h3>
+							<ul class="space-y-1 text-sm" id="company-work-links"></ul>
+						</div>
+						<div>
+							<h3 class="text-lg md:text-xl font-semibold text-sky-400 mb-2 md:mb-3">Connect & Legal</h3>
+							<ul class="space-y-1 text-sm" id="company-connect-links"></ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<main class="pt-16">
+		<section class="py-20 md:py-32 relative">
+			<div class="container mx-auto px-6 text-center relative z-10">
+				<p class="text-sm font-semibold text-indigo-400 uppercase tracking-wider mb-3 md:mb-4">STRATEGIC DIGITAL GROWTH</p>
+				<h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-50 mb-6 md:mb-8 leading-tight">Accelerate Your Growth with <br class="hidden md:block">Comprehensive Digital Marketing</h1>
+				<p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-8 md:mb-10">Drive leads, enhance brand visibility, and achieve measurable ROI across all digital channels.</p>
+				<div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+					<a href="#digital-marketing-services" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-full text-base md:text-lg shadow-xl transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75">Explore Our Strategies</a>
+					<a href="#contact-section" class="bg-slate-700 hover:bg-slate-600 text-indigo-300 font-semibold px-8 py-3 rounded-full text-base md:text-lg shadow-xl transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-opacity-75">Request a Free Audit</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-20 bg-slate-800/50 scroll-trigger-section">
+			<div class="container mx-auto px-6 relative z-10">
+				<div class="text-center mb-16 section-reveal">
+					<h2 class="text-4xl md:text-5xl font-bold text-white mb-6 gradient-text">What is Holistic Digital Marketing?</h2>
+					<p class="text-xl text-slate-300 max-w-3xl mx-auto">It's more than just tactics; it's a unified strategy integrating every touchpoint to connect with your audience, build authority, and drive business objectives.</p>
+				</div>
+				<div class="max-w-4xl mx-auto text-lg text-slate-300 leading-relaxed section-reveal">
+					<p class="mb-4">In today's complex digital landscape, a piecemeal approach to marketing falls short. Holistic Digital Marketing means we look at your entire online ecosystem. From the moment a potential customer discovers you to when they become a loyal advocate, every interaction is optimized and aligned with your core business goals.</p>
+					<p>Our strategies are built on deep analytics and continuous optimization, ensuring that your marketing spend translates directly into measurable growth and a strong return on investment.</p>
+				</div>
+			</div>
+		</section>
+
+		<section id="digital-marketing-services" class="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 scroll-trigger-section">
+			<div class="container mx-auto px-6 relative z-10">
+				<div class="text-center mb-16 section-reveal">
+					<h2 class="text-4xl md:text-5xl font-bold text-white mb-6 gradient-text">Our Comprehensive Digital Marketing Services</h2>
+					<p class="text-xl text-slate-300 max-w-3xl mx-auto">We craft tailored strategies across diverse digital channels to maximize your online presence and achieve your business goals.</p>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					<div class="services-card p-8 rounded-2xl section-reveal">
+						<div class="floating-element mb-6">
+							<div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center">
+								<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253m9 0c1.168-.776 2.754-1.253 4.5-1.253 1.746 0 3.332.477 4.5 1.253m-9 0V15.75c0 1.144-.784 2.05-1.968 2.05h-1.077c-1.184 0-1.968-.906-1.968-2.05V6.253zM12 15.75c0 1.144.784 2.05 1.968 2.05h1.077c1.184 0 1.968-.906 1.968-2.05V6.253z"></path>
+								</svg>
+							</div>
+						</div>
+						<h3 class="text-2xl font-bold text-white mb-4">Content Marketing</h3>
+						<p class="text-slate-300 mb-6 leading-relaxed">Engage your audience and establish thought leadership with valuable, SEO-optimized content.</p>
+						<ul class="text-sm text-slate-400 space-y-2">
+							<li>• Content Strategy & Planning</li>
+							<li>• High-Quality Content Creation</li>
+							<li>• Content Distribution & Promotion</li>
+							<li>• Blog, Article & Whitepaper Writing</li>
+						</ul>
+					</div>
+					<div class="services-card p-8 rounded-2xl section-reveal">
+						<div class="floating-element mb-6">
+							<div class="w-16 h-16 bg-gradient-to-br from-sky-400 to-indigo-500 rounded-2xl flex items-center justify-center">
+								<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h-5m-5 0h10m-5 0v-4m-5 4H4m5-4a5 5 0 1110 0v4H9zm0 0H9m-5 0H4a2 2 0 01-2-2V7a2 2 0 012-2h4M7 5V3m0 2h4M7 5v2m4 0H9m-2 0H5"></path>
+								</svg>
+							</div>
+						</div>
+						<h3 class="text-2xl font-bold text-white mb-4">Social Media Marketing</h3>
+						<p class="text-slate-300 mb-6 leading-relaxed">Build brand loyalty and drive traffic through engaging social media strategies and campaigns.</p>
+						<ul class="text-sm text-slate-400 space-y-2">
+							<li>• Organic Social Strategy</li>
+							<li>• Paid Social Advertising</li>
+							<li>• Community Management</li>
+							<li>• Social Media Audits</li>
+						</ul>
+					</div>
+					<div class="services-card p-8 rounded-2xl section-reveal">
+						<div class="floating-element mb-6">
+							<div class="w-16 h-16 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl flex items-center justify-center">
+								<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2z"></path>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.105A9.761 9.761 0 0112 15c4.97 0 9-3.582 9-8s-4.03-8-9-8-9 3.582-9 8c0 1.025.161 2.015.451 2.955L3 14l1.395 3.105A9.761 9.761 0 0112 15c4.97 0 9-3.582 9-8s-4.03-8-9-8-9 3.582-9 8c0 1.025.161 2.015.451 2.955z"></path>
+								</svg>
+							</div>
+						</div>
+						<h3 class="text-2xl font-bold text-white mb-4">Paid Advertising (PPC)</h3>
+						<p class="text-slate-300 mb-6 leading-relaxed">Achieve immediate visibility and targeted traffic with expertly managed pay-per-click campaigns.</p>
+						<ul class="text-sm text-slate-400 space-y-2">
+							<li>• Google Ads Management</li>
+							<li>• Social Media Ad Campaigns</li>
+							<li>• Remarketing & Retargeting</li>
+							<li>• A/B Testing & Optimization</li>
+						</ul>
+					</div>
+					<div class="services-card p-8 rounded-2xl section-reveal">
+						<div class="floating-element mb-6">
+							<div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center">
+								<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.893-4.736A.998.998 0 0112 3.998c0 .285-.125.568-.352.75l-7.893 4.736A.998.998 0 013 8zm0 0v8a1 1 0 00.352.75L12 16.002v-8l-7.893-4.736A.998.998 0 013 8zM12 16.002l7.893-4.736A.998.998 0 0121 11.998c0 .285-.125.568-.352.75l-7.893 4.736A.998.998 0 0112 16.002zm0 0v8a1 1 0 00.352.75L21 20.002v-8l-7.893-4.736A.998.998 0 0112 16.002z"></path>
+								</svg>
+							</div>
+						</div>
+						<h3 class="text-2xl font-bold text-white mb-4">Email Marketing</h3>
+						<p class="text-slate-300 mb-6 leading-relaxed">Cultivate leads and build customer relationships with automated and personalized email campaigns.</p>
+						<ul class="text-sm text-slate-400 space-y-2">
+							<li>• Email Automation & Workflows</li>
+							<li>• Newsletter & Campaign Creation</li>
+							<li>• Lead Nurturing Sequences</li>
+							<li>• Audience Segmentation</li>
+						</ul>
+					</div>
+					<div class="services-card p-8 rounded-2xl section-reveal">
+						<div class="floating-element mb-6">
+							<div class="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center">
+								<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.105A9.761 9.761 0 0112 15c4.97 0 9-3.582 9-8s-4.03-8-9-8-9 3.582-9 8c0 1.025.161 2.015.451 2.955L3 14l1.395 3.105A9.761 9.761 0 0112 15c4.97 0 9-3.582 9-8s-4.03-8-9-8-9 3.582-9 8c0 1.025.161 2.015.451 2.955z"></path>
+								</svg>
+							</div>
+						</div>
+						<h3 class="text-2xl font-bold text-white mb-4">SEO Integration</h3>
+						<p class="text-slate-300 mb-6 leading-relaxed">Ensure your digital marketing efforts also contribute to strong organic search visibility.</p>
+						<ul class="text-sm text-slate-400 space-y-2">
+							<li>• On-Page & Technical SEO</li>
+							<li>• Keyword Research for Campaigns</li>
+							<li>• Link Building Synergy</li>
+							<li>• Local SEO Strategy</li>
+						</ul>
+					</div>
+					<div class="services-card p-8 rounded-2xl section-reveal">
+						<div class="floating-element mb-6">
+							<div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center">
+								<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13.78z"></path>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13h.01M12 16h.01"></path>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12v4a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+								</svg>
+							</div>
+						</div>
+						<h3 class="text-2xl font-bold text-white mb-4">Performance Analytics & Reporting</h3>
+						<p class="text-slate-300 mb-6 leading-relaxed">Gain clear insights into your marketing performance with custom, actionable dashboards.</p>
+						<ul class="text-sm text-slate-400 space-y-2">
+							<li>• Custom Dashboard Development</li>
+							<li>• ROI Tracking & Analysis</li>
+							<li>• Conversion Funnel Optimization</li>
+							<li>• Regular Performance Reviews</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-20 bg-slate-800/30 scroll-trigger-section">
+			<div class="container mx-auto px-6 relative z-10">
+				<div class="text-center mb-16 section-reveal">
+					<h2 class="text-4xl md:text-5xl font-bold text-white mb-6 gradient-text">The Holistic Advantage in Digital Marketing</h2>
+					<p class="text-xl text-slate-300 max-w-3xl mx-auto">Our integrated approach ensures every digital effort works in harmony to deliver superior, sustainable growth.</p>
+				</div>
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+					<div class="space-y-8">
+						<div class="benefit-card p-6 rounded-xl section-reveal">
+							<div class="flex items-center mb-4">
+								<div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center mr-4">
+									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+									</svg>
+								</div>
+								<h3 class="text-xl font-bold text-white">Unified Strategy</h3>
+							</div>
+							<p class="text-slate-300">We align all your digital marketing channels under one cohesive strategy, eliminating silos and maximizing impact.</p>
+						</div>
+						<div class="benefit-card p-6 rounded-xl section-reveal">
+							<div class="flex items-center mb-4">
+								<div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center mr-4">
+									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+									</svg>
+								</div>
+								<h3 class="text-xl font-bold text-white">Data-Driven Optimization</h3>
+							</div>
+							<p class="text-slate-300">Every campaign is continuously optimized based on real-time data, ensuring optimal performance and ROI.</p>
+						</div>
+						<div class="benefit-card p-6 rounded-xl section-reveal">
+							<div class="flex items-center mb-4">
+								<div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center mr-4">
+									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+									</svg>
+								</div>
+								<h3 class="text-xl font-bold text-white">Expert Team & Support</h3>
+							</div>
+							<p class="text-slate-300">Benefit from a team of experienced digital marketing specialists dedicated to your success, with ongoing support.</p>
+						</div>
+					</div>
+					<div class="lg:pl-12 section-reveal">
+						<div class="relative">
+							<div class="absolute inset-0 bg-gradient-to-r from-sky-400/20 to-indigo-500/20 rounded-3xl blur-3xl"></div>
+							<div class="relative bg-slate-800/80 backdrop-blur-xl p-8 rounded-3xl border border-slate-700/50">
+								<h3 class="text-3xl font-bold text-white mb-6">Our Impact at a Glance</h3>
+								<div class="grid grid-cols-2 gap-6">
+									<div class="text-center">
+										<div class="text-4xl font-bold text-sky-400 mb-2">350%+</div>
+										<div class="text-slate-300">Avg. Traffic Increase</div>
+									</div>
+									<div class="text-center">
+										<div class="text-4xl font-bold text-emerald-400 mb-2">200%+</div>
+										<div class="text-slate-300">Avg. Lead Growth</div>
+									</div>
+									<div class="text-center">
+										<div class="text-4xl font-bold text-purple-400 mb-2">95%+</div>
+										<div class="text-slate-300">Client Retention</div>
+									</div>
+									<div class="text-center">
+										<div class="text-4xl font-bold text-pink-400 mb-2">Top 1%</div>
+										<div class="text-slate-300">Industry Performance</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="contact-section" class="py-20 bg-slate-900/70 relative">
+			<div class="container mx-auto px-6 text-center relative z-10">
+				<h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-50 mb-6 md:mb-8 leading-tight gradient-text">Ready to Supercharge Your Digital Presence?</h2>
+				<p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-8 md:mb-10">Connect with our experts today for a personalized strategy that drives real business impact.</p>
+				<div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+					<a href="https://www.holisticgrowthmarketing.com/contact" class="bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-semibold px-8 py-3 rounded-full text-base md:text-lg shadow-xl transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 btn-primary">Book Your Free Digital Audit</a>
+					<a href="mailto:info@holisticgrowthmarketing.com" class="bg-slate-700 hover:bg-slate-600 text-indigo-300 font-semibold px-8 py-3 rounded-full text-base md:text-lg shadow-xl transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-opacity-75">Send Us an Email</a>
+				</div>
+			</div>
+		</section>
+
+	</main>
+
+	<footer class="bg-slate-900 text-slate-400 pt-16 pb-8 relative overflow-hidden">
+		<div class="canvas-container" id="footer-background"></div>
+		<div class="container mx-auto px-6 relative z-10">
+			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+				<div>
+					<h5 class="text-sm font-semibold text-slate-200 tracking-wider uppercase mb-4">Key Services</h5>
+					<ul class="space-y-1 text-xs" id="footer-services-links"></ul>
+				</div>
+				<div>
+					<h5 class="text-sm font-semibold text-slate-200 tracking-wider uppercase mb-4">Learn & Explore</h5>
+					<ul class="space-y-1 text-xs" id="footer-resources-links"></ul>
+				</div>
+				<div>
+					<h5 class="text-sm font-semibold text-slate-200 tracking-wider uppercase mb-4">Our Tools</h5>
+					<ul class="space-y-1 text-xs" id="footer-tools-links"></ul>
+				</div>
+				<div>
+					<h5 class="text-sm font-semibold text-slate-200 tracking-wider uppercase mb-4">Industries Served</h5>
+					<ul class="space-y-1 text-xs" id="footer-industries-links"></ul>
+				</div>
+			</div>
+			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+				<div>
+					<h5 class="text-sm font-semibold text-slate-200 tracking-wider uppercase mb-4">Locations</h5>
+					<ul class="space-y-1 text-xs" id="footer-locations1-links"></ul>
+				</div>
+				<div>
+					<h5 class="text-sm font-semibold text-slate-200 tracking-wider uppercase mb-4">More Locations</h5>
+					<ul class="space-y-1 text-xs" id="footer-locations2-links"></ul>
+				</div>
+				<div>
+					<h5 class="text-sm font-semibold text-slate-200 tracking-wider uppercase mb-4">Legal</h5>
+					<ul class="space-y-1 text-xs" id="footer-legal-links"></ul>
+				</div>
+				<div>
+					<h5 class="text-sm font-semibold text-slate-200 tracking-wider uppercase mb-4">Contact Us</h5>
+					<ul class="space-y-2 text-xs">
+						<li><a href="mailto:info@holisticgrowthmarketing.com" class="footer-contact-link"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+										<path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+										<path d="M18 8.118l-8 4-8-4V14a2 2 0 012 2h12a2 2 0 012-2V8.118z" />
+									</svg>Direct Email</a></li>
+						<li><a href="tel:+13239021031" class="footer-contact-link"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+										<path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+									</svg>(323) 902 - 1031</a></li>
+						<li><a href="https://maps.google.com/?q=Venice,CA90291" target="_blank" rel="noopener noreferrer" class="footer-contact-link"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+									</svg>Venice, CA 90291</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+				<div class="flex space-x-5 mb-6 md:mb-0">
+					<a href="#" class="text-slate-500 hover:text-indigo-400 transition-colors"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+							</svg></a>
+					<a href="#" class="text-slate-500 hover:text-indigo-400 transition-colors"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+							</svg></a>
+					<a href="#" class="text-slate-500 hover:text-indigo-400 transition-colors"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path fill-rule="evenodd" d="M13 10V3L4 14h7v7l9-11h-7z" clip-rule="evenodd" />
+							</svg></a>
+					<a href="#" class="text-slate-500 hover:text-indigo-400 transition-colors"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+							</svg></a>
+					<a href="#" class="text-slate-500 hover:text-indigo-400 transition-colors"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+							</svg></a>
+				</div>
+				<p class="text-xs text-slate-500">
+					<span id="currentYear"></span> Holistic Growth Marketing. All Rights Reserved.
+				</p>
+			</div>
+		</div>
+	</footer>
+
+	<div class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 text-white py-3 overflow-hidden ticker-marquee">
+		<div class="flex items-center whitespace-nowrap animate-marquee">
+			<div class="flex items-center space-x-8 mr-8">
+				<span class="text-sm md:text-base font-semibold">Try Our Google Sheets Powered Business Intelligence Dashboard FREE for 7 days!</span>
+				<a href="#try-free-bi" class="bg-white text-indigo-600 hover:bg-gray-100 px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105 shadow-lg">Try Now!</a>
+			</div>
+			<div class="flex items-center space-x-8 mr-8">
+				<span class="text-sm md:text-base font-semibold">Try Our Google Sheets Powered Business Intelligence Dashboard FREE for 7 days!</span>
+				<a href="#try-free-bi" class="bg-white text-indigo-600 hover:bg-gray-100 px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105 shadow-lg">Try Now!</a>
+			</div>
+			<div class="flex items-center space-x-8 mr-8">
+				<span class="text-sm md:text-base font-semibold">Try Our Google Sheets Powered Business Intelligence Dashboard FREE for 7 days!</span>
+				<a href="https://www.holisticgrowthmarketing.com/contact" class="bg-white text-indigo-600 hover:bg-gray-100 px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105 shadow-lg">Try Now!</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="custom-alert-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[9999] hidden">
+		<div class="bg-slate-800 p-8 rounded-lg shadow-lg max-w-sm w-full border border-sky-400">
+			<h3 class="text-xl font-bold text-sky-400 mb-4">Notification</h3>
+			<p id="custom-alert-message" class="text-slate-200 mb-6"></p>
+			<button id="custom-alert-close" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 rounded-md transition-colors">OK</button>
+		</div>
+	</div>
+
+	<script>
+		// Sitemap data for dynamic menu and footer population
+		const baseUrl = "https://www.holisticgrowthmarketing.com";
+		const sitemapData = {
+			services: [{
+				path: '/services/search-engine-optimization',
+				group: 'seo'
+			}, {
+				path: '/services/local-seo',
+				group: 'seo'
+			}, {
+				path: '/services/google-business-seo',
+				group: 'seo'
+			}, {
+				path: '/services/on-page-seo',
+				group: 'seo'
+			}, {
+				path: '/services/off-page-seo',
+				group: 'seo'
+			}, {
+				path: '/services/technical-seo',
+				group: 'seo'
+			}, {
+				path: '/services/e-commerce-seo',
+				group: 'seo'
+			}, {
+				path: '/services/link-building',
+				group: 'seo'
+			}, {
+				path: '/services/keyword-research',
+				group: 'content-digital'
+			}, {
+				path: '/services/content-marketing',
+				group: 'content-digital'
+			}, {
+				path: '/services/content-creation',
+				group: 'content-digital'
+			}, {
+				path: '/services/digital-marketing',
+				group: 'content-digital'
+			}, {
+				path: '/services/email-marketing',
+				group: 'content-digital'
+			}, {
+				path: '/services/local-ads-management',
+				group: 'content-digital'
+			}, {
+				path: '/services/business-intelligence',
+				group: 'data-web'
+			}, {
+				path: '/services/data-analysis-and-reporting',
+				group: 'data-web'
+			}, {
+				path: '/services/seo-reporting-services',
+				group: 'data-web'
+			}, {
+				path: '/services/trend-analysis-forecasting',
+				group: 'data-web'
+			}, {
+				path: '/services/web-design',
+				group: 'data-web'
+			}, {
+				path: '/services/web-development-services',
+				group: 'data-web'
+			}, {
+				path: '/services/conversion-rate-optimization',
+				group: 'optimization-mgmt'
+			}, {
+				path: '/services/marketing-automation',
+				group: 'optimization-mgmt'
+			}, {
+				path: '/services/review-management',
+				group: 'optimization-mgmt'
+			}, ],
+			industries: [{
+					path: '/industries/residential-construction-seo',
+					title: 'Residential Construction SEO',
+					group: 'construction'
+				}, {
+					path: '/industries/nonresidential-construction-seo',
+					title: 'Nonresidential Construction SEO',
+					group: 'construction'
+				}, {
+					path: '/sectors/construction-seo',
+					title: 'Construction Sector SEO',
+					group: 'construction'
+				}, {
+					path: '/industries/roofing',
+					group: 'construction'
+				}, // slugToTitle will generate "Roofing"
+				{
+					path: '/industries/property-management-seo',
+					title: 'Property Management SEO',
+					group: 'construction'
+				}, {
+					path: '/industries/finance-banking-seo',
+					title: 'Finance & Banking SEO',
+					group: 'professional'
+				}, {
+					path: '/industries/healthcare-seo',
+					title: 'Healthcare SEO',
+					group: 'professional'
+				}, {
+					path: '/industries/durable-goods-manufacturing-seo',
+					title: 'Durable Goods Mfg. SEO',
+					group: 'other'
+				},
+			],
+			locations: [{
+				path: '/los-angeles-seo',
+				group: 'la'
+			}, {
+				path: '/los-angeles/beverly-hills-seo',
+				group: 'la'
+			}, {
+				path: '/los-angeles/venice-seo',
+				group: 'la'
+			}, {
+				path: '/los-angeles/santa-monica-seo',
+				group: 'la'
+			}, {
+				path: '/los-angeles/culver-city-seo',
+				group: 'la'
+			}, {
+				path: '/los-angeles/hollywood-seo-services',
+				group: 'la'
+			}, {
+				path: '/los-angeles/echo-park-digital-marketing-seo',
+				group: 'la'
+			}, {
+				path: '/los-angeles/west-la-seo-services',
+				group: 'la'
+			}, {
+				path: '/los-angeles/marina-del-rey-seo',
+				group: 'la'
+			}, {
+				path: '/san-francisco-seo',
+				group: 'ca-other'
+			}, {
+				path: '/new-york-city-seo',
+				group: 'east'
+			}, {
+				path: '/locations/philadelphia-seo',
+				group: 'east'
+			}, {
+				path: '/locations/boston-seo',
+				group: 'east'
+			}, {
+				path: '/locations/washington-dc-seo',
+				group: 'east'
+			}, {
+				path: '/miami-seo',
+				group: 'central-south'
+			}, {
+				path: '/locations/orlando-seo-services',
+				group: 'central-south'
+			}, {
+				path: '/atlanta-seo',
+				group: 'central-south'
+			}, {
+				path: '/houston-seo',
+				group: 'central-south'
+			}, {
+				path: '/locations/dallas-seo',
+				group: 'central-south'
+			}, {
+				path: '/locations/san-antonio-seo',
+				group: 'central-south'
+			}, {
+				path: '/locations/new-orleans-seo',
+				group: 'central-south'
+			}, {
+				path: '/chicago-seo',
+				group: 'more'
+			}, {
+				path: '/locations/detroit-seo-services',
+				group: 'more'
+			}, {
+				path: '/locations/cleveland-oh-seo',
+				group: 'more'
+			}, {
+				path: '/locations/st-louis-seo',
+				group: 'more'
+			}, {
+				path: '/locations/kansas-city-seo',
+				group: 'more'
+			}, {
+				path: '/locations/indianapolis-seo',
+				group: 'more'
+			}, {
+				path: '/locations/memphis-seo',
+				group: 'more'
+			}, {
+				path: '/locations/nashville-seo',
+				group: 'more'
+			}, {
+				path: '/locations/el-paso-seo',
+				group: 'more'
+			}, {
+				path: '/locations/portland-seo',
+				group: 'more'
+			}, {
+				path: '/locations/seattle-seo',
+				group: 'more'
+			}, ],
+			resources: [{
+				path: '/resources/holistic-seo',
+				group: 'learn'
+			}, {
+				path: '/resources/holistic-marketing',
+				group: 'learn'
+			}, {
+				path: '/resources/holistic-growth',
+				group: 'learn'
+			}, {
+				path: '/resources/seo-fundamentals',
+				group: 'learn'
+			}, {
+				path: '/resources/data-driven-marketing',
+				group: 'learn'
+			}, {
+				path: '/resources/best-articles',
+				group: 'articles'
+			}, {
+				path: '/resources/popular-articles',
+				group: 'articles'
+			}, {
+				path: '/resources/newsletter',
+				group: 'articles'
+			}, {
+				path: '/topics-seo',
+				title: 'Browse All Topics',
+				group: 'articles'
+			}, {
+				path: '/resources/pricing',
+				group: 'guides'
+			}, {
+				path: '/resources/seo-case-study-national-franchise',
+				group: 'guides'
+			}, {
+				path: '/resources/google-sheets-templates',
+				group: 'guides'
+			}, {
+				path: '/resources/glossary',
+				group: 'guides'
+			}, {
+				path: '/resources/schema-markup',
+				group: 'guides'
+			}, {
+				path: '/resources/schema-markup-seo',
+				group: 'guides'
+			}, {
+				path: '/resources/information-retrieval',
+				group: 'guides'
+			}, {
+				path: '/resources/local-info/beverly-hills-business-statistics-2025',
+				title: 'Beverly Hills Business Stats 2025',
+				group: 'guides'
+			}, {
+				path: '/topic/content-marketing',
+				group: 'topics'
+			}, {
+				path: '/topic/business-intelligence',
+				group: 'topics'
+			}, {
+				path: '/topic/digital-marketing',
+				group: 'topics'
+			}, {
+				path: '/topic/keyword-research',
+				group: 'topics'
+			}, {
+				path: '/topic/artificial-intelligence',
+				group: 'topics'
+			}, {
+				path: '/topic/social-media-marketing',
+				group: 'topics'
+			}, {
+				path: '/topic/review-management',
+				group: 'topics'
+			}, {
+				path: '/topic/automation',
+				group: 'topics'
+			}, ],
+			tools: [{
+				path: '/tools/word-counter-plus',
+				group: 'content-analysis'
+			}, {
+				path: '/tools/content-analyzer',
+				group: 'content-analysis'
+			}, {
+				path: '/tools/content-brief-generator',
+				group: 'content-analysis'
+			}, {
+				path: '/tools/sitemap-analyzer',
+				group: 'seo-specific'
+			}, {
+				path: '/tools/schema-generator',
+				group: 'seo-specific'
+			}, {
+				path: '/tools/branded-vs-non-branded-keywords',
+				group: 'seo-specific'
+			}, {
+				path: '/tools/html-analyzer',
+				group: 'dev-utility'
+			}, {
+				path: '/tools/html-markdown-editor',
+				group: 'dev-utility'
+			}, {
+				path: '/tools/image-converter',
+				group: 'dev-utility'
+			}, {
+				path: '/tools/google-sheets-to-json-converter',
+				group: 'dev-utility'
+			}, {
+				path: '/tools/chrome-extension-builder',
+				group: 'dev-utility'
+			}, {
+				path: '/tools/ai-output-cleaner-tool',
+				group: 'ai-automation'
+			}, {
+				path: '/tools/advanced-prompt-generator',
+				group: 'ai-automation'
+			}, {
+				path: '/tools/ai-code-generator',
+				group: 'ai-automation'
+			}, ],
+			company: [ // Ensure these have titles or rely on slugToTitle
+				{
+					path: '/about-us',
+					group: 'about'
+				}, {
+					path: '/our-mission',
+					group: 'about',
+					title: 'Our Mission'
+				}, // Explicit title
+				{
+					path: '/ethics-statement',
+					group: 'about',
+					title: 'Ethics Statement'
+				}, // Explicit title
+				{
+					path: '/resources/authors',
+					group: 'work'
+				}, {
+					path: '/author/jason-gibson',
+					group: 'work'
+				}, {
+					path: '/projects/web-projects',
+					group: 'work'
+				}, {
+					path: '/demo/marketing-dashboard',
+					group: 'work'
+				}, {
+					path: '/contact',
+					group: 'connect'
+				}, {
+					path: '/term/privacy-policy',
+					group: 'connect',
+					title: 'Privacy Policy'
+				}, {
+					path: '/term/cookies',
+					group: 'connect',
+					title: 'Cookie Policy'
+				}, {
+					path: '/term/licensing',
+					group: 'connect',
+					title: 'Terms of Use'
+				}, // Explicit title for "Terms of Use"
+			]
+		};
+		/**
+			* Converts a slug string into a human-readable title.
+			* Handles specific path overrides and common acronyms.
+			* @param {string} slug - The slug string (e.g., "search-engine-optimization").
+			* @param {string} fullPath - The full path of the URL.
+			* @returns {string} The formatted title.
+			*/
+		function slugToTitle(slug, fullPath = '') {
+			if (!slug) return '';
+			let title = slug;
+			// Specific path overrides for more accurate titles
+			const pathOverrides = {
+				'/services/google-business-seo': 'Google Business SEO',
+				'/services/e-commerce-seo': 'E-commerce SEO',
+				'/services/on-page-seo': 'On-Page SEO',
+				'/services/off-page-seo': 'Off-Page SEO',
+				'/los-angeles/hollywood-seo-services': 'Hollywood SEO Services',
+				'/los-angeles/echo-park-digital-marketing-seo': 'Echo Park Digital Marketing & SEO',
+				'/los-angeles/west-la-seo-services': 'West LA SEO Services',
+				'/locations/cleveland-oh-seo': 'Cleveland, OH SEO',
+				'/locations/st-louis-seo': 'St. Louis SEO',
+				'/locations/washington-dc-seo': 'Washington D.C. SEO',
+				'/resources/seo-case-study-national-franchise': 'SEO Case Study: National Franchise',
+				'/resources/local-info/beverly-hills-business-statistics-2025': 'Beverly Hills Business Stats 2025',
+				'/tools/branded-vs-non-branded-keywords': 'Branded vs Non-Branded Keywords Tool',
+				'/tools/google-sheets-to-json-converter': 'Google Sheets to JSON Converter',
+				'/industries/residential-construction-seo': 'Residential Construction SEO',
+				'/industries/property-management-seo': 'Property Management SEO',
+				'/industries/finance-banking-seo': 'Finance & Banking SEO',
+				'/industries/healthcare-seo': 'Healthcare SEO',
+				'/industries/nonresidential-construction-seo': 'Nonresidential Construction SEO',
+				'/industries/durable-goods-manufacturing-seo': 'Durable Goods Mfg. SEO',
+				'/sectors/construction-seo': 'Construction Sector SEO',
+				'/our-mission': 'Our Mission',
+				'/ethics-statement': 'Ethics Statement',
+				'/term/privacy-policy': 'Privacy Policy',
+				'/term/cookies': 'Cookie Policy',
+				'/term/licensing': 'Terms of Use'
+			};
+			if (pathOverrides[fullPath]) {
+				return pathOverrides[fullPath];
+			}
+			// General slug to title conversion
+			title = title.replace(/-/g, ' '); // Replace hyphens with spaces
+			title = title.split(' ').map(word => {
+				// Capitalize first letter of each word
+				return word.charAt(0).toUpperCase() + word.slice(1);
+			}).join(' ');
+			// Handle common acronyms
+			title = title.replace(/\bSeo\b/g, 'SEO').replace(/\bAi\b/g, 'AI').replace(/\bBi\b/g, 'BI');
+			return title;
+		}
+		/**
+			* Populates a given UL element with links based on sitemap data.
+			* @param {Array<Object>} items - Array of sitemap items.
+			* @param {Object} linkMappings - Object mapping group names to container IDs.
+			*/
+		function populateLinks(items, linkMappings) {
+			items.forEach(item => {
+				const pathSegments = item.path.split('/').filter(Boolean);
+				const slug = pathSegments.pop();
+				const title = item.title || slugToTitle(slug, item.path);
+				const fullUrl = baseUrl + item.path;
+				const container = document.getElementById(linkMappings[item.group]);
+				if (container) {
+					const li = document.createElement('li');
+					const a = document.createElement('a');
+					a.href = fullUrl;
+					a.textContent = title;
+					a.className = 'submenu-item';
+					li.appendChild(a);
+					container.appendChild(li);
+				} else {
+					// console.warn(`Container for group '${item.group}' with ID '${linkMappings[item.group]}' not found.`); // Commented out for production
+				}
+			});
+		}
+		/**
+			* Creates a list item for a footer link.
+			* @param {string} itemPath - The path of the link.
+			* @param {string} itemTitle - The title of the link.
+			* @returns {HTMLLIElement} The created list item element.
+			*/
+		function createFooterLinkItem(itemPath, itemTitle) {
+			const li = document.createElement('li');
+			const a = document.createElement('a');
+			a.href = baseUrl + itemPath;
+			a.textContent = itemTitle;
+			a.className = 'footer-link text-xs';
+			li.appendChild(a);
+			return li;
+		}
+		/**
+			* Populates a footer UL element with a limited number of links.
+			* @param {Array<Object>} items - Array of sitemap items.
+			* @param {string} containerId - The ID of the UL container.
+			* @param {number} maxItems - Maximum number of items to display.
+			*/
+		function populateFooterLinks(items, containerId, maxItems = 7) {
+			const container = document.getElementById(containerId);
+			if (!container) {
+				// console.error(`Footer container with ID '${containerId}' NOT FOUND.`); // Commented out for production
+				return;
+			}
+			container.innerHTML = ''; // Clear existing content
+			let itemCount = 0;
+			items.slice(0, maxItems).forEach(item => {
+				const title = item.title || slugToTitle(item.path.split('/').pop(), item.path);
+				if (title) {
+					container.appendChild(createFooterLinkItem(item.path, title));
+					itemCount++;
+				}
+			});
+		}
+		// Custom Alert Modal Functions
+		function showCustomAlert(message) {
+			const modal = document.getElementById('custom-alert-modal');
+			const msgElement = document.getElementById('custom-alert-message');
+			msgElement.textContent = message;
+			modal.classList.remove('hidden');
+		}
+
+		function hideCustomAlert() {
+			const modal = document.getElementById('custom-alert-modal');
+			modal.classList.add('hidden');
+		}
+		// All DOMContentLoaded related scripts are consolidated here
+		document.addEventListener('DOMContentLoaded', () => {
+			// Update current year in footer
+			const currentYearElement = document.getElementById('currentYear');
+			if (currentYearElement) {
+				currentYearElement.textContent = new Date().getFullYear();
+			}
+			// Populate menu and footer links
+			populateLinks(sitemapData.services, {
+				'seo': 'services-seo-links',
+				'content-digital': 'services-content-digital-links',
+				'data-web': 'services-data-web-links',
+				'optimization-mgmt': 'services-optimization-mgmt-links'
+			});
+			populateLinks(sitemapData.industries, {
+				'construction': 'industries-construction-links',
+				'professional': 'industries-professional-links',
+				'other': 'industries-other-links'
+			});
+			populateLinks(sitemapData.locations, {
+				'la': 'locations-la-links',
+				'ca-other': 'locations-ca-other-links',
+				'east': 'locations-east-links',
+				'central-south': 'locations-central-south-links',
+				'more': 'locations-more-links'
+			});
+			populateLinks(sitemapData.resources, {
+				'learn': 'resources-learn-links',
+				'articles': 'resources-articles-links',
+				'guides': 'resources-guides-links',
+				'topics': 'resources-topics-links'
+			});
+			populateLinks(sitemapData.tools, {
+				'content-analysis': 'tools-content-analysis-links',
+				'dev-utility': 'tools-dev-utility-links',
+				'ai-automation': 'tools-ai-automation-links',
+				'seo-specific': 'tools-seo-specific-links'
+			});
+			populateLinks(sitemapData.company.filter(c => c.group === 'about' || c.group === 'work' || c.path === '/contact'), {
+				'about': 'company-about-links',
+				'work': 'company-work-links',
+				'connect': 'company-connect-links'
+			});
+			// Populate footer links
+			populateFooterLinks(sitemapData.services, 'footer-services-links', 6);
+			populateFooterLinks(sitemapData.resources.filter(r => r.group === 'learn' || r.group === 'guides' || r.group === 'articles'), 'footer-resources-links', 6);
+			populateFooterLinks(sitemapData.tools, 'footer-tools-links', 6);
+			populateFooterLinks(sitemapData.industries, 'footer-industries-links', 6);
+			const locationsHalf = Math.ceil(sitemapData.locations.length / 2);
+			populateFooterLinks(sitemapData.locations.slice(0, locationsHalf), 'footer-locations1-links', 7);
+			populateFooterLinks(sitemapData.locations.slice(locationsHalf), 'footer-locations2-links', 7);
+			const legalLinksForFooter = sitemapData.company.filter(c =>
+				c.path === '/term/privacy-policy' ||
+				c.path === '/term/cookies' ||
+				c.path === '/term/licensing' ||
+				c.path === '/our-mission' ||
+				c.path === '/ethics-statement'
+			);
+			populateFooterLinks(legalLinksForFooter, 'footer-legal-links', 5);
+			// Mega Menu Logic
+			const menuItems = document.querySelectorAll('.menu-item-nav');
+			const megaMenu = document.querySelector('.mega-menu');
+			const menuContents = document.querySelectorAll('.menu-content');
+			const closeBtn = megaMenu.querySelector('.close-btn');
+			const hamburgerBtn = document.getElementById('hamburger-menu');
+			const body = document.body;
+			let activeMenuContentElement = null;
+
+			function openMenu(menuId) {
+				const targetMenuContent = document.getElementById(menuId + '-menu');
+				megaMenu.classList.add('active');
+				body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+				hamburgerBtn.setAttribute('aria-expanded', 'true');
+				// Hide all menu content sections first
+				menuContents.forEach(content => content.style.display = 'none');
+				// Display the target menu content and apply animations
+				if (targetMenuContent) {
+					targetMenuContent.style.display = 'block';
+					activeMenuContentElement = targetMenuContent;
+					// GSAP animations for list items and cards within the menu
+					const listItems = targetMenuContent.querySelectorAll('.submenu-item, .menu-card-interactive, .interactive-demo-card');
+					gsap.fromTo(listItems, {
+						opacity: 0,
+						y: 20,
+						rotationX: -15
+					}, {
+						opacity: 1,
+						y: 0,
+						rotationX: 0,
+						stagger: 0.05,
+						duration: 0.6,
+						ease: "power3.out"
+					});
+					// GSAP animations for titles within the menu
+					const titles = targetMenuContent.querySelectorAll('h2, h3');
+					gsap.fromTo(titles, {
+						opacity: 0,
+						x: -30
+					}, {
+						opacity: 1,
+						x: 0,
+						stagger: 0.1,
+						duration: 0.8,
+						ease: "power2.out"
+					});
+				} else {
+					activeMenuContentElement = null;
+				}
+			}
+
+			function closeMegaMenu() {
+				megaMenu.classList.remove('active');
+				body.style.overflow = 'auto'; // Re-enable scrolling
+				menuContents.forEach(content => content.style.display = 'none'); // Hide all content
+				activeMenuContentElement = null;
+				hamburgerBtn.setAttribute('aria-expanded', 'false');
+			}
+			// Event listeners for menu items
+			menuItems.forEach(item => {
+				item.addEventListener('click', (e) => {
+					e.preventDefault();
+					const menuId = item.dataset.menu;
+					const targetMenuContent = document.getElementById(menuId + '-menu');
+					// If the menu is already open and the same item is clicked, close it
+					if (megaMenu.classList.contains('active') && activeMenuContentElement === targetMenuContent) {
+						closeMegaMenu();
+					} else {
+						openMenu(menuId);
+					}
+				});
+			});
+			// Hamburger menu toggle
+			hamburgerBtn.addEventListener('click', () => {
+				if (megaMenu.classList.contains('active')) {
+					closeMegaMenu();
+				} else {
+					// Open the first menu item by default if none is active, or re-open the active one
+					if (!activeMenuContentElement && menuItems.length > 0) {
+						openMenu(menuItems[0].dataset.menu);
+					} else if (activeMenuContentElement) {
+						openMenu(activeMenuContentElement.id.replace('-menu', ''));
+					} else if (menuItems.length > 0) { // Fallback if no active element but menu items exist
+						openMenu(menuItems[0].dataset.menu);
+					}
+				}
+			});
+			// Close button for mega menu
+			closeBtn.addEventListener('click', closeMegaMenu);
+			// Close mega menu when clicking outside the content (on the overlay)
+			megaMenu.addEventListener('click', (e) => {
+				if (e.target === megaMenu) {
+					closeMegaMenu();
+				}
+			});
+			// Three.js Background for Mega Menu
+			const menuBackgroundContainer = document.getElementById('menu-background');
+			if (menuBackgroundContainer && typeof THREE !== 'undefined' && typeof gsap !== 'undefined') {
+				const scene = new THREE.Scene();
+				const camera = new THREE.PerspectiveCamera(75, menuBackgroundContainer.clientWidth / menuBackgroundContainer.clientHeight, 0.1, 1000);
+				const renderer = new THREE.WebGLRenderer({
+					alpha: true, // Enable transparent background
+					antialias: true
+				});
+				renderer.setSize(menuBackgroundContainer.clientWidth, menuBackgroundContainer.clientHeight);
+				menuBackgroundContainer.appendChild(renderer.domElement);
+				const particleSystems = [];
+				const particleConfigs = [{
+					count: 3000,
+					size: 0.008,
+					color: 0x38bdf8,
+					opacity: 0.6,
+					speed: 0.00005
+				}, {
+					count: 1500,
+					size: 0.012,
+					color: 0x8b5cf6,
+					opacity: 0.4,
+					speed: 0.00003
+				}, {
+					count: 800,
+					size: 0.015,
+					color: 0x06b6d4,
+					opacity: 0.3,
+					speed: 0.00007
+				}];
+				particleConfigs.forEach((config, index) => {
+					const particlesGeometry = new THREE.BufferGeometry();
+					const posArray = new Float32Array(config.count * 3);
+					for (let i = 0; i < config.count * 3; i++) {
+						posArray[i] = (Math.random() - 0.5) * (Math.random() * 12 + 6); // Distribute particles
+					}
+					particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+					const particlesMaterial = new THREE.PointsMaterial({
+						size: config.size,
+						color: config.color,
+						transparent: true,
+						opacity: config.opacity,
+						blending: THREE.AdditiveBlending // For glowing effect
+					});
+					const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+					particlesMesh.userData = {
+						speed: config.speed,
+						index
+					}; // Store speed and index
+					scene.add(particlesMesh);
+					particleSystems.push(particlesMesh);
+				});
+				camera.position.z = 5;
+				const mouse = {
+					x: 0,
+					y: 0
+				};
+				let mouseMoveTimeout;
+				document.addEventListener('mousemove', (event) => {
+					clearTimeout(mouseMoveTimeout);
+					mouseMoveTimeout = setTimeout(() => {
+						mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+						mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+					}, 30); // Debounce mouse move for performance
+				});
+
+				function animateMenuBackground() {
+					requestAnimationFrame(animateMenuBackground);
+					particleSystems.forEach((system, index) => {
+						const speed = system.userData.speed;
+						system.rotation.y += speed + (mouse.x * 0.0001); // Subtle rotation based on mouse X
+						system.rotation.x += speed * 0.5 + (mouse.y * 0.00005); // Subtle rotation based on mouse Y
+						system.rotation.z += speed * 0.3;
+					});
+					renderer.render(scene, camera);
+				}
+				animateMenuBackground();
+				// Handle window resize for menu background
+				window.addEventListener('resize', () => {
+					if (menuBackgroundContainer.clientWidth > 0 && menuBackgroundContainer.clientHeight > 0) {
+						camera.aspect = menuBackgroundContainer.clientWidth / menuBackgroundContainer.clientHeight;
+						camera.updateProjectionMatrix();
+						renderer.setSize(menuBackgroundContainer.clientWidth, menuBackgroundContainer.clientHeight);
+					}
+				});
+			}
+			// Three.js Background for Footer
+			const footerBackgroundContainer = document.getElementById('footer-background');
+			if (footerBackgroundContainer && typeof THREE !== 'undefined' && typeof gsap !== 'undefined') {
+				const scene = new THREE.Scene();
+				const camera = new THREE.PerspectiveCamera(75, footerBackgroundContainer.clientWidth / footerBackgroundContainer.clientHeight, 0.1, 1000);
+				const renderer = new THREE.WebGLRenderer({
+					alpha: true,
+					antialias: true
+				});
+				renderer.setSize(footerBackgroundContainer.clientWidth, footerBackgroundContainer.clientHeight);
+				footerBackgroundContainer.appendChild(renderer.domElement);
+				const particlesGeometry = new THREE.BufferGeometry();
+				const particlesCnt = window.innerWidth < 768 ? 2000 : 4000;
+				const posArray = new Float32Array(particlesCnt * 3);
+				for (let i = 0; i < particlesCnt * 3; i += 3) {
+					posArray[i] = (Math.random() - 0.5) * 10;
+					posArray[i + 1] = (Math.random() - 0.5) * 8;
+					posArray[i + 2] = (Math.random() - 0.5) * 8;
+				}
+				particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+				const particlesMaterial = new THREE.PointsMaterial({
+					size: 0.01,
+					color: 0x6366f1, // Indigo color
+					transparent: true,
+					opacity: 0.7,
+					blending: THREE.AdditiveBlending
+				});
+				const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+				scene.add(particlesMesh);
+				camera.position.z = 4;
+				let time = 0; // Initialize time for animation
+				function animateFooterBackground() {
+					requestAnimationFrame(animateFooterBackground);
+					// Update particle positions for a wave-like effect
+					const positions = particlesMesh.geometry.attributes.position.array;
+					for (let i = 1; i < positions.length; i += 3) {
+						// Animate Y position based on sine wave
+						positions[i] = Math.sin(time + positions[i - 1] * 0.1) * 0.5;
+					}
+					particlesMesh.geometry.attributes.position.needsUpdate = true; // Mark as needing update
+					particlesMesh.rotation.y += 0.0001; // Subtle rotation
+					particlesMesh.rotation.x += 0.00005; // Subtle rotation
+					time += 0.01; // Increment time for animation
+					renderer.render(scene, camera);
+				}
+				animateFooterBackground();
+				// Handle window resize for footer background
+				window.addEventListener('resize', () => {
+					if (footerBackgroundContainer.clientWidth > 0 && footerBackgroundContainer.clientHeight > 0) {
+						camera.aspect = footerBackgroundContainer.clientWidth / footerBackgroundContainer.clientHeight;
+						camera.updateProjectionMatrix();
+						renderer.setSize(footerBackgroundContainer.clientWidth, footerBackgroundContainer.clientHeight);
+					}
+				});
+			}
+			// GSAP Scroll Animations
+			gsap.registerPlugin(ScrollTrigger);
+
+			function initScrollAnimations() {
+				// Generic section reveal animation
+				gsap.utils.toArray('.section-reveal').forEach((element, i) => {
+					gsap.fromTo(element, {
+						opacity: 0,
+						y: 60,
+						rotationX: 15,
+						scale: 0.95
+					}, {
+						opacity: 1,
+						y: 0,
+						rotationX: 0,
+						scale: 1,
+						duration: 1.2,
+						ease: "power3.out",
+						scrollTrigger: {
+							trigger: element,
+							start: "top 80%", // When top of element hits 80% from top of viewport
+							end: "bottom 20%", // When bottom of element hits 20% from top of viewport
+							toggleActions: "play none none reverse" // Play on enter, reverse on leave back
+						},
+						delay: i * 0.1 // Stagger animation
+					});
+				});
+				// Services Card Parallax/Reveal
+				gsap.utils.toArray('.services-card').forEach((card, i) => {
+					// Subtle vertical parallax effect
+					gsap.to(card, {
+						y: -30,
+						ease: "none",
+						scrollTrigger: {
+							trigger: card,
+							start: "top bottom", // Start when top of card enters from bottom
+							end: "bottom top", // End when bottom of card leaves top
+							scrub: 1 // Smoothly scrub animation based on scroll position
+						}
+					});
+					// Entry animation for services cards
+					gsap.fromTo(card, {
+						opacity: 0,
+						y: 100,
+						rotationY: -15,
+						scale: 0.8
+					}, {
+						opacity: 1,
+						y: 0,
+						rotationY: 0,
+						scale: 1,
+						duration: 1.5,
+						ease: "power3.out",
+						scrollTrigger: {
+							trigger: card,
+							start: "top 85%",
+							toggleActions: "play none none reverse"
+						},
+						delay: i * 0.2
+					});
+				});
+				// Benefit Card Reveal (staggered from left/right)
+				gsap.utils.toArray('.benefit-card').forEach((card, i) => {
+					gsap.fromTo(card, {
+						opacity: 0,
+						x: i % 2 === 0 ? -100 : 100, // Alternate entry from left/right
+						rotationY: i % 2 === 0 ? -20 : 20,
+						scale: 0.7
+					}, {
+						opacity: 1,
+						x: 0,
+						rotationY: 0,
+						scale: 1,
+						duration: 1.8,
+						ease: "power4.out",
+						scrollTrigger: {
+							trigger: card,
+							start: "top 85%",
+							toggleActions: "play none none reverse"
+						},
+						delay: i * 0.15
+					});
+				});
+				// Testimonial Card Reveal (staggered with rotation)
+				gsap.utils.toArray('.testimonial-card').forEach((card, i) => {
+					gsap.fromTo(card, {
+						opacity: 0,
+						y: 80,
+						rotation: i % 2 === 0 ? -5 : 5, // Subtle rotation
+						scale: 0.9
+					}, {
+						opacity: 1,
+						y: 0,
+						rotation: 0,
+						scale: 1,
+						duration: 1.4,
+						ease: "power3.out",
+						scrollTrigger: {
+							trigger: card,
+							start: "top 85%",
+							toggleActions: "play none none reverse"
+						},
+						delay: i * 0.25
+					});
+				});
+				// Floating elements animation (e.g., icons in service cards)
+				gsap.utils.toArray('.floating-element').forEach(element => {
+					gsap.to(element, {
+						y: -20,
+						rotation: 3,
+						duration: 3,
+						ease: "power2.inOut",
+						repeat: -1,
+						yoyo: true // Go back and forth
+					});
+				});
+				// Background position animation for scroll-trigger-sections
+				gsap.utils.toArray('.scroll-trigger-section').forEach(section => {
+					gsap.to(section, {
+						backgroundPosition: "50% 100%", // Animate background position
+						ease: "none",
+						scrollTrigger: {
+							trigger: section,
+							start: "top bottom",
+							end: "bottom top",
+							scrub: true
+						}
+					});
+				});
+			}
+			// Initialize GSAP scroll animations if libraries are loaded
+			if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+				initScrollAnimations();
+			}
+			// Pricing Calculator Logic
+			let selectedPlan = null;
+			let selectedPrice = 0;
+			let isAnnual = false;
+			const userPrice = 10; // $10 per user
+			const storagePrice = 0.5; // $0.50 per GB
+			// Add-on prices
+			const addons = {
+				'addon-api': 50,
+				'addon-export': 30,
+				'addon-training': 100
+			};
+			// Get DOM elements
+			const planCards = document.querySelectorAll('.pricing-card');
+			const selectPlanButtons = document.querySelectorAll('.select-plan');
+			const selectedPlanDisplay = document.getElementById('selected-plan-display');
+			const usersInput = document.getElementById('users');
+			const storageInput = document.getElementById('storage');
+			const storageValue = document.getElementById('storage-value');
+			const storageCount = document.getElementById('storage-count');
+			const usersCount = document.getElementById('users-count');
+			const basePriceElement = document.getElementById('base-price'); // Renamed to avoid conflict
+			const usersPriceElement = document.getElementById('users-price'); // Renamed to avoid conflict
+			const storagePriceElement = document.getElementById('storage-price'); // Renamed to avoid conflict
+			const totalPriceElement = document.getElementById('total-price'); // Renamed to avoid conflict
+			const addonCheckboxes = document.querySelectorAll('.addon-checkbox');
+			const addonsSummary = document.getElementById('addons-summary');
+			const billingToggle = document.getElementById('billingToggle');
+			const billingNote = document.getElementById('billing-note');
+			const getQuoteBtn = document.getElementById('get-quote');
+			const quoteResult = document.getElementById('quote-result');
+			const quoteMessage = document.getElementById('quote-message');
+			const customAlertModal = document.getElementById('custom-alert-modal');
+			const customAlertCloseBtn = document.getElementById('custom-alert-close');
+			const paymentOptionsDiv = document.getElementById('payment-options'); // New element for payment options
+			// Initialize storage value display
+			storageValue.textContent = storageInput.value;
+			// Event listener for custom alert close button
+			customAlertCloseBtn.addEventListener('click', hideCustomAlert);
+			// Plan selection logic
+			selectPlanButtons.forEach(button => {
+				button.addEventListener('click', function() {
+					const plan = this.getAttribute('data-plan');
+					const price = this.getAttribute('data-price');
+					// Remove 'active-card' class from all plan cards
+					planCards.forEach(card => card.classList.remove('active-card'));
+					// Add 'active-card' class to the selected plan card
+					document.getElementById(`${plan}-card`).classList.add('active-card');
+					// Update selected plan and price
+					selectedPlan = plan;
+					selectedPrice = price === 'custom' ? 'Custom' : parseInt(price);
+					// Update the displayed selected plan name
+					selectedPlanDisplay.textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+					// Recalculate total price
+					calculateTotal();
+					// Show/hide payment options based on selected plan
+					if (selectedPlan === 'basic' || selectedPlan === 'pro') {
+						paymentOptionsDiv.classList.remove('hidden');
+						getQuoteBtn.textContent = 'Proceed to Checkout'; // Change button text for subscription plans
+					} else {
+						paymentOptionsDiv.classList.add('hidden');
+						getQuoteBtn.textContent = 'Get Your Quote'; // Revert button text for Enterprise
+					}
+				});
+			});
+			// User count adjustment buttons
+			document.getElementById('decrease-users').addEventListener('click', function() {
+				if (parseInt(usersInput.value) > 1) {
+					usersInput.value = parseInt(usersInput.value) - 1;
+					calculateTotal();
+				}
+			});
+			document.getElementById('increase-users').addEventListener('click', function() {
+				usersInput.value = parseInt(usersInput.value) + 1;
+				calculateTotal();
+			});
+			// Update calculation when user input changes (e.g., directly typing a number)
+			usersInput.addEventListener('change', function() {
+				if (parseInt(this.value) < 1 || isNaN(parseInt(this.value))) {
+					this.value = 1; // Ensure minimum of 1 user
+				}
+				calculateTotal();
+			});
+			// Storage slider input event
+			storageInput.addEventListener('input', function() {
+				storageValue.textContent = this.value; // Update display of current storage value
+				calculateTotal();
+			});
+			// Add-on checkboxes change event
+			addonCheckboxes.forEach(checkbox => {
+				checkbox.addEventListener('change', calculateTotal);
+			});
+			// Billing toggle (monthly/annual) change event
+			billingToggle.addEventListener('change', function() {
+				isAnnual = this.checked;
+				billingNote.textContent = isAnnual ? 'Annual billing (20% discount applied)' : 'Monthly billing';
+				calculateTotal();
+			});
+			// Get Quote button click handler
+			getQuoteBtn.addEventListener('click', function() {
+				if (!selectedPlan) {
+					showCustomAlert('Please select a plan first to get a quote.');
+					return;
+				}
+				const planName = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+				const total = totalPriceElement.textContent;
+				const period = isAnnual ? 'annually' : 'monthly';
+				if (selectedPlan === 'enterprise') {
+					quoteMessage.textContent = `For the Enterprise plan, please contact our sales team for a custom quote. We'll tailor a solution to your specific needs.`;
+				} else {
+					quoteMessage.textContent = `Your ${planName} plan with ${usersInput.value} users and ${storageInput.value}GB storage will cost ${total} ${period}. You can proceed to checkout using the payment options below.`;
+				}
+				quoteResult.classList.remove('hidden');
+				// Smooth scroll to the quote result for better UX
+				quoteResult.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center'
+				});
+			});
+
+			/**
+			 * Calculates the total price based on selected plan, users, storage, and add-ons.
+			 */
+			function calculateTotal() {
+				// Update user and storage count displays in the summary
+				usersCount.textContent = usersInput.value;
+				storageCount.textContent = storageInput.value;
+				// Handle 'Enterprise' plan or no plan selected
+				if (!selectedPlan || selectedPlan === 'enterprise') {
+					basePriceElement.textContent = selectedPlan === 'enterprise' ? 'Custom' : '$0';
+					usersPriceElement.textContent = '$0';
+					storagePriceElement.textContent = '$0';
+					totalPriceElement.textContent = selectedPlan === 'enterprise' ? 'Custom pricing' : '$0';
+					addonsSummary.innerHTML = ''; // Clear add-ons for custom pricing
+					paymentOptionsDiv.classList.add('hidden'); // Hide payment options for Enterprise
+					getQuoteBtn.textContent = 'Get Your Quote';
+					return;
+				}
+				// Calculate base price, applying annual discount if applicable
+				let basePriceValue = selectedPrice;
+				if (isAnnual) {
+					basePriceValue = Math.round(basePriceValue * 0.8); // Apply 20% discount
+				}
+				basePriceElement.textContent = `$${basePriceValue}`;
+				// Calculate users cost
+				const usersCost = parseInt(usersInput.value) * userPrice;
+				usersPriceElement.textContent = `$${usersCost}`;
+				// Calculate storage cost
+				const storageCost = parseInt(storageInput.value) * storagePrice;
+				storagePriceElement.textContent = `$${storageCost.toFixed(2)}`; // Format to 2 decimal places
+				// Calculate add-ons cost and update summary display
+				let addonsCost = 0;
+				addonsSummary.innerHTML = ''; // Clear previous add-ons in summary
+				addonCheckboxes.forEach(checkbox => {
+					if (checkbox.checked) {
+						const addonId = checkbox.id;
+						const addonCost = addons[addonId];
+						addonsCost += addonCost;
+						// Add the add-on to the summary list
+						const addonName = checkbox.nextElementSibling.textContent.split('(')[0].trim();
+						const addonDiv = document.createElement('div');
+						addonDiv.className = 'flex justify-between mb-2 text-gray-300';
+						addonDiv.innerHTML = `
+                            <span>${addonName}:</span>
+                            <span>$${addonCost}</span>
+                        `;
+						addonsSummary.appendChild(addonDiv);
+					}
+				});
+				// Calculate the final total price
+				const total = basePriceValue + usersCost + storageCost + addonsCost;
+				totalPriceElement.textContent = `$${total.toFixed(2)}`; // Format total to 2 decimal places
+				// Show payment options if a Basic or Pro plan is selected
+				if (selectedPlan === 'basic' || selectedPlan === 'pro') {
+					paymentOptionsDiv.classList.remove('hidden');
+					getQuoteBtn.textContent = 'Proceed to Checkout';
+				} else {
+					paymentOptionsDiv.classList.add('hidden');
+					getQuoteBtn.textContent = 'Get Your Quote';
+				}
+			}
+			// Initial calculation call to set up default values
+			calculateTotal();
+		});
+	</script>
